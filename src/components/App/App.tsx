@@ -1,21 +1,18 @@
-// src/components/App.tsx
+import css from "./App.module.css";
+import CafeInfo from "../CafeInfo/CafeInfo";
+import VoteOptions from "../VoteOptions/VoteOptions";
 
-import Product from "../Product/Product";
+export interface Votes {
+  good: number;
+  neutral: number;
+  bad: number;
+}
 
 export default function App() {
   return (
-    <>
-      <h1>Best selling</h1>
-      <Product
-        name="Tacos With Lime"
-        imgUrl="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?w=640"
-        price={10.99}
-      />
-      <Product
-        name="Fries and Burger"
-        imgUrl="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?w=640"
-        price={14.29}
-      />
-    </>
+    <div className={css.app}>
+      <CafeInfo />
+      <VoteOptions />
+    </div>
   );
 }
