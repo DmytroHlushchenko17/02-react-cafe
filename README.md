@@ -1,73 +1,152 @@
-# React + TypeScript + Vite
+Створено репозиторій 02-react-cafe.
+При здачі роботи надаються два посилання: на вихідні файли (репозиторій) та на робочу сторінку завдання, розгорнуту на Vercel.
+Проєкт створено за допомогою Vite.
+Під час запуску коду в консолі не повинно бути помилок або попереджень.
+Для кожного компонента у папці src/components має бути окрема папка, яка містить файл самого React компонента та файл його стилів. Назва папки, файлу компонента (з розширенням .tsx) та файлу стилів (перед .module.css) однакова і відповідає назвам, вказаним у завданнях (якщо вони були).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+У кожній папці компонента мають бути:
+Файл компонента з розширенням .tsx (наприклад, App.tsx).
+Файл стилів, назва якого закінчується на .module.css, з такою самою назвою (наприклад, App.module.css).
 
-Currently, two official plugins are available:
+Для експорту компонентів використовується експорт за замовчуванням (export default).
+Загальні типи, які використовуються в кількох компонентах, винесені в окремий файл (src/types/votes.ts). Типи та інтерфейси, які стосуються лише одного компонента, оголошені безпосередньо у файлі цього компонента.
+TypeScript-код має бути чистим, зрозумілим і відформатованим за допомогою Prettier.
+Стилізація виконується за допомогою CSS-модулів.
+Використовується modern-normalize для уніфікації стилів у різних браузерах.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Віджет відгуків
 
-## React Compiler
+Створи застосунок, який дозволяє користувачам залишати відгуки про кав’ярню. Є три варіанти оцінки: good, neutral, bad. Користувач обирає одну з опцій і бачить статистику.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Переглянь демо-відео роботи застосунку.
 
-## Expanding the ESLint configuration
+Компоненти
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Це твій перший застосунок, тому ми вже розділили інтерфейс на компоненти та надали готову HTML-розмітку й стилі. Твоя задача – сфокусуватися на логіці роботи в React і TypeScript: зібрати інтерфейс, реалізувати функціональність і виконати типізацію.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Стилі для всіх компонентів вже створені. Скопіюй їх із цього репозиторію: https://github.com/goitacademy/react-cafe-styles. Після створення своїх компонентів скопіюй відповідні .module.css файли у відповідні папки в src/components.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Частини інтерфейсу, що входять до компонентів, виділені рамками відповідного кольору. Усі компоненти рендеряться всередині компонента App.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Крок 1. Компонент App
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Компонент App є контейнером для решти компонентів і поки що створює таку розмітку:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+<div className={css.app}></div>
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Крок 2. Компонент CafeInfo
+
+Створи компонент із назвою та коротким описом кав’ярні. Він має створювати таку розмітку:
+
+<div className={css.container}>
+  <h1 className={css.title}>Sip Happens Café</h1>
+  <p className={css.description}>
+    Please rate our service by selecting one of the options below.
+  </p>
+</div>
+
+Додай його до App. Після цього кроку інтерфейс застосунку має виглядати так:
+
+Крок 3. Стан додатка
+
+Продовжуємо реалізовувати можливість голосування та обробки фідбеку від користувача.
+
+При кліку на одну з кнопок ("Good", "Neutral", "Bad") з компонента VoteOptions вам потрібно зберігати інформацію про вибір користувача та передавати її до інших компонентів, зокрема – до того, який відповідає за відображення статистики <VoteStats/>. Для цього нам потрібен стан.
+
+Створіть в App стан votes, який зберігатиме кількість голосів. Це буде об'єкт з властивостями:
+
+{
+good: 0,
+neutral: 0,
+bad: 0
+}
+
+Типізуй цей стан через інтерфейс Votes, який треба оголосити та експортувати у файлі src/types/votes.ts. У цьому ж файлі створи тип VoteType – це перелік допустимих рядкових значень 'good' | 'neutral' | 'bad'.
+
+Додай у App функції для роботи зі станом:
+
+handleVote(type) – для оновлення стану голосів. Використовуй тип VoteType для типізації її параметра.
+resetVotes() – для скидання стану.
+
+Таким чином, votes буде центральним джерелом даних про голосування, а всі відповідні компоненти зможуть отримувати актуальні значення через пропси.
+
+Крок 4. Компонент VoteOptions
+
+Наступним кроком створіть компонент VoteOptions. Цей компонент має відповідати за рендер кнопок для голосування (Good, Neutral, Bad) та кнопки Reset для скидання результатів і створювати наступну розмітку:
+
+<div className={css.container}>
+  <button className={css.button}>Good</button>
+  <button className={css.button}>Neutral</button>
+  <button className={css.button}>Bad</button>
+  <button className={`${css.button} ${css.reset}`}>Reset</button>
+</div>
+
+Компонент має приймати три пропси:
+
+onVote – функція, яка викликається при кліку на одну з кнопок голосування;
+onReset – функція, що викликається при кліку на кнопку Reset і відповідає за скидання голосів;
+canReset – булеве значення, яке визначає, чи потрібно показувати кнопку Reset. (На цьому етапі можеш передавати просто зі значенням true.)
+
+У файлі компонента оголосіть інтерфейс VoteOptionsProps, який описує типи для пропсів компонента.
+
+На цьому етапі кнопки мають працювати, оновлюючи стан в App:
+
+Крок 5. Компонент VoteStats
+
+Створіть компонент VoteStats, який буде відображати статистику голосів. Він має створювати наступну розмітку:
+
+<div className={styles.container}>
+  <p className={styles.stat}>Good: <strong>0</strong></p>
+  <p className={styles.stat}>Neutral: <strong>0</strong></p>
+  <p className={styles.stat}>Bad: <strong>0</strong></p>
+  <p className={styles.stat}>Total: <strong>0</strong></p>
+  <p className={styles.stat}>Positive: <strong>0%</strong></p>
+</div>
+
+Для того, щоб компонент VoteStats міг динамічно відображати статистику голосування, зібрану з кліків на кнопки голосування, він має приймати три пропси:
+
+votes – об'єкт, що містить кількість голосів для кожної категорії: good, neutral, bad;
+totalVotes – загальна кількість голосів (поки можна передати 0);
+positiveRate – відсоток позитивних голосів (також поки можна передати 0).
+
+У файлі компонента оголосіть інтерфейс VoteStatsProps, який описує типи для пропсів компонента.
+
+Після цього кроку інтерфейс застосунку має виглядати та працювати наступним чином – при кліках на кнопки в VoteOptions зміни відображаються у VoteStats:
+
+Крок 6. Обчислення статистики
+
+Оскільки стан нашого застосунку зберігається в компоненті App, то обчислення, повʼязані зі станом буде правильно виконувати саме в App і передавати вже готове обчислене значення пропсами компоненту VoteStats.
+
+Додайте в компонент App обчислення загальної кількості зібраних голосів з усіх категорій та відсоток позитивних відгуків.
+
+Загальна кількість відгуків – це просто сума станів:
+
+totalVotes = good + neutral + bad
+
+Для підрахунку відсотка позитивних відгуків можна використовувати наступний вираз:
+
+positiveRate = totalVotes
+? Math.round((votes.good / totalVotes) \* 100)
+: 0
+
+Зверни увагу, що для значень totalVotes і positiveRate не потрібно створювати окремі властивості в стані App, оскільки це дані, що легко обчислюються на основі чинного стану.
+
+Після цього кроку інтерфейс застосунку має виглядати так:
+
+Крок 7. Компонент Notification
+
+Створіть компонент Notification, який буде показувати повідомлення про відсутність статистики. Він має створювати наступну розмітку:
+
+<p className={css.message}>No feedback yet</p>
+
+Цей компонент не приймає пропсів.
+
+Реалізуйте умовний рендеринг компонентів залежно від значення totalVotes. Компонент VoteStats має рендеритись тільки після того, як буде отримано хоча б один голос. Тому, якщо значення totalVotes більше нуля, то має рендеритись компонент VoteStats. Якщо ж відгуків немає (тобто totalVotes дорівнює 0), то має рендеритись компонент Notification.
+
+Після цього кроку інтерфейс застосунку має виглядати так:
+
+Крок 8. Кнопка Reset за умови
+
+Зробіть так, щоб кнопка Reset відображалась тільки тоді, коли є хоча б один голос. Для цього використовуйте змінну totalVotes в компоненті App і передавайте пропс canReset в компонент VoteOptions зі значенням, яке буде вказувати, чи потрібно відображати кнопку Reset.
+
+Після цього кроку інтерфейс застосунку буде завершений і має виглядати так:
